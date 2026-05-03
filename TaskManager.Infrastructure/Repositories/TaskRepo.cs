@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TaskManager.Application.RepoContract;
 using TaskManager.Domain.Entities;
+using TaskManager.Domain.Identities;
 using TaskManager.Infrastructure.Context;
 
 namespace TaskManager.Infrastructure.Repositories
@@ -22,9 +23,16 @@ namespace TaskManager.Infrastructure.Repositories
             return await _context.Tasks.ToListAsync();
         }
 
+        public async Task<List<TaskItem>> GetTaskByUserId(Guid id)
+        {
+            return await _context.Tasks
+                .Where(t => t.UserID == id)
+                .ToListAsync();
+        }
+
         public async Task<TaskItem> GetTaskById(Guid id)
         {
-            return await _context.Tasks.FirstOrDefaultAsync(t => t.Id == id);
+            return await _context.Tasks.FirstOrDefaultAsync(t=>t.Id==id);
         }
 
         public async Task<TaskItem> AddTask(TaskItem task)

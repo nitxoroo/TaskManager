@@ -8,6 +8,7 @@ namespace TaskManager.Application.RepoContract
     public interface ITaskRepo
     {
         Task<List<TaskItem>> GetAllTasks();
+        Task<List<TaskItem>> GetTaskByUserId(Guid id);
         Task<TaskItem> GetTaskById(Guid id);
         Task<TaskItem> AddTask(TaskItem task);
 

@@ -9,6 +9,7 @@ namespace TaskManager.Application.ServicesContract
     public interface ITaskService
     {
         Task<List<TaskItem>> GetAllTasks();
+        Task<List<TaskItem>> GetAllUserTask();
         Task<TaskItem> GetTaskById(Guid id);
         Task<TaskItem> AddTask(AddTaskDto dto);
 

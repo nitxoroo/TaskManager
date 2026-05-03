@@ -21,8 +21,8 @@ namespace TaskManager.Application.Features.Tasks.Command.Handlers
             AddTaskDto addTask = new AddTaskDto
             {
                 Title = request.Title,
-                Description = request.Description,
-                UserId = request.UserId.ToString()
+                Description = request.Description
+                
             };
 
             var Task = await _taskService.AddTask(addTask);

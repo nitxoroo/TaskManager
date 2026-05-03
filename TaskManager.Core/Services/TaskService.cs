@@ -14,9 +14,11 @@ namespace TaskManager.Infrastructure.Services
     public class TaskService: ITaskService
     {
         private readonly ITaskRepo _taskRepo;
-        public TaskService(ITaskRepo taskRepo)
+        private readonly ICurrentUserService _currentUserService;
+        public TaskService(ITaskRepo taskRepo,ICurrentUserService currentUserService)
         {
             _taskRepo = taskRepo;
+            _currentUserService = currentUserService;
         }
 
         public async Task<List<TaskItem>> GetAllTasks()
@@ -29,14 +31,20 @@ namespace TaskManager.Infrastructure.Services
 
         public async Task<TaskItem> GetTaskById(Guid id)
         {
-            var res = await _taskRepo.GetTaskById(id);
-            if (res == null) throw new Exception("No task found with the given id");
+            return await _taskRepo.GetTaskById(id);
+        }
+
+        public async Task<List<TaskItem>> GetAllUserTask()
+        {
+            var userId= _currentUserService.UserId;
+            var res = await _taskRepo.GetTaskByUserId(userId);
+            if (res == null) throw new Exception("No task found ");
             return res;
         }
 
         public async Task<TaskItem> AddTask(AddTaskDto dto)
         {
-            if(string.IsNullOrEmpty(dto.UserId)) throw new ArgumentException("UserId is required");
+            
 
             
             var task = new TaskItem
@@ -45,7 +53,7 @@ namespace TaskManager.Infrastructure.Services
                 Description = dto.Description,
                 IsCompleted = false,
                 CreatedAt = DateTime.UtcNow,
-                UserID=Guid.Parse(dto.UserId)
+                UserID=_currentUserService.UserId
             };
             var res = await _taskRepo.AddTask(task);
             return res;

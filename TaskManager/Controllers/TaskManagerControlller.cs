@@ -26,6 +26,13 @@ namespace TaskManager.Controllers
             return Ok(result);
         }
 
+        [HttpGet("GetMyTasks")]
+        public async Task<IActionResult> GetAllUserTask()
+        {
+            var result = await _mediator.Send(new GetAllUserTaskQuery());
+            return Ok(result);
+        }
+
         [HttpGet("GetTaskById/{id}")]
         public async Task<IActionResult> GetTaskById(Guid id)
         {

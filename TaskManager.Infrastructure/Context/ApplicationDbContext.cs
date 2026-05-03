@@ -17,5 +17,15 @@ namespace TaskManager.Infrastructure.Context
 
         public DbSet<TaskItem> Tasks { get; set; }
 
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<TaskItem>()
+                .HasOne(t => t.User)
+                .WithMany(u => u.Tasks)
+                .HasForeignKey(t => t.UserID)
+                .OnDelete(DeleteBehavior.Cascade); // or Restrict
+        }
     }
 }

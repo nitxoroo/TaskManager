@@ -17,7 +17,7 @@ namespace TaskManager.Application.Features.Auth.Validators
 
             RuleFor(x => x.Password)
                 .NotEmpty()
-                .MinimumLength(8);
+                .MinimumLength(5);
         }
     }
 }
