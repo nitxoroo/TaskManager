@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using System.Security.Claims;
+using TaskManager.Application.Common.Behavior;
 using TaskManager.Application.Common.Behaviors;
 using TaskManager.Application.Features.Auth.Commands;
 using TaskManager.Application.Features.Tasks.Command;
@@ -81,6 +82,11 @@ builder.Services.AddOpenApi();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<ICurrentUserService, CurrentUserService>();
+
+builder.Services.AddTransient(
+    typeof(IPipelineBehavior<,>),
+    typeof(LoggingBehavior<,>)
+);
 
 
 

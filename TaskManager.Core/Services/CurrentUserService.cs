@@ -16,10 +16,22 @@ namespace TaskManager.Application.Services
             _httpContextAccessor = httpContextAccessor;
         }
 
-        public Guid UserId =>
-            Guid.Parse(
-                _httpContextAccessor.HttpContext!
-                .User.FindFirst(ClaimTypes.NameIdentifier)!.Value
-            );
+        public Guid? UserId
+        {
+            get
+            {
+                var user = _httpContextAccessor.HttpContext?.User;
+
+                if (user == null || !user.Identity!.IsAuthenticated)
+                    return null;
+
+                var claim = user.FindFirst(ClaimTypes.NameIdentifier);
+
+                if (claim == null)
+                    return null;
+
+                return Guid.Parse(claim.Value);
+            }
+        }
     }
 }

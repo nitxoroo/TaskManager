@@ -36,7 +36,7 @@ namespace TaskManager.Infrastructure.Services
 
         public async Task<List<TaskItem>> GetAllUserTask()
         {
-            var userId= _currentUserService.UserId;
+            var userId = GetCurrentUserId();
             var res = await _taskRepo.GetTaskByUserId(userId);
             if (res == null) throw new Exception("No task found ");
             return res;
@@ -53,7 +53,7 @@ namespace TaskManager.Infrastructure.Services
                 Description = dto.Description,
                 IsCompleted = false,
                 CreatedAt = DateTime.UtcNow,
-                UserID=_currentUserService.UserId
+                UserID= GetCurrentUserId(),
             };
             var res = await _taskRepo.AddTask(task);
             return res;
@@ -76,6 +76,14 @@ namespace TaskManager.Infrastructure.Services
             var res = await _taskRepo.DeleteTask(id);
             if (res == null) throw new Exception("No task found with the given id");
             return res;
+        }
+
+        private Guid GetCurrentUserId()
+        {
+            if (_currentUserService.UserId == null)
+                throw new UnauthorizedAccessException("User not authenticated");
+
+            return _currentUserService.UserId.Value;
         }
     }
 }

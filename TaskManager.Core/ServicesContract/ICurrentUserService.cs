@@ -6,6 +6,6 @@ namespace TaskManager.Application.ServicesContract
 {
     public interface ICurrentUserService
     {
-        Guid UserId { get; }
+        Guid? UserId { get; }
     }
 }
