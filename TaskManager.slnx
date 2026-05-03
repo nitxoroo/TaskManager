@@ -1,0 +1,12 @@
+<Solution>
+  <Folder Name="/API/">
+    <Project Path="TaskManager/TaskManager.csproj" />
+  </Folder>
+  <Folder Name="/Application/">
+    <Project Path="TaskManager.Core/TaskManager.Application.csproj" />
+    <Project Path="TaskManager.Domain/TaskManager.Domain.csproj" />
+  </Folder>
+  <Folder Name="/Infrastructure/">
+    <Project Path="TaskManager.Infrastructure/TaskManager.Infrastructure.csproj" />
+  </Folder>
+</Solution>
